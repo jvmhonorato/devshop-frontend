@@ -8,7 +8,7 @@ const Index = () => {
     return(
         <div >
         <Layout>
-        <Title>Devshop Panel Control</Title>
+        <Title>Iniciar Categorias</Title>
                         
              {/* Dinamic data card */}
                         <div class="mt-4">
