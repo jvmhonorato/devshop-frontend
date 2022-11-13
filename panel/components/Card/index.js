@@ -10,9 +10,12 @@ const Card = ({ children }) => {
     </div>
   )
 }
-const CardIcon = ({ children }) => {
+const CardIcon = ({ children, Icon }) => {
   return (
+    <>
     <div className='p-3 rounded-full bg-pink-600 bg-opacity-75'>{children}</div>
+    </>
+    
   )
 }
 const CardData = ({ children }) => {
