@@ -4,24 +4,10 @@ import Layout from '../components/layout'
 import Table from '../components/Table'
 import Title from '../components/title'
 import { MdProductionQuantityLimits } from "react-icons/md";
-import useSWR from 'swr'
+import { useQuery } from '../lib/graphql'
 
 
 
-//isomorphic-unfetch
-const fetcher = async query => {
-    console.log('fetcher', JSON.stringify(query), query)
-    const res = await fetch('http://localhost:3000/graphql',{
-        headers:{
-            'Content-type':'application/json'
-        },
-        method:'POST',
-        body: query
-    })
-    //return de answer in JSON
-    const json = await res.json()
-    return json.data
-}
 
 const query = {
     query:`
@@ -36,7 +22,7 @@ const query = {
 }
 
 const Index = () => {
-    const {data, error} = useSWR(JSON.stringify(query), fetcher)
+    const {data, error} = useQuery(query)
     console.log(data, error)
 
     return(
