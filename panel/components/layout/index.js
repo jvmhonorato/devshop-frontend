@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Card from "../Card";
+
 import Menu from "../Menu";
-import Title from "../title";
+
 import { MdCategory,MdOutlineHome } from "react-icons/md";
 
 const Layout = ({children}) => {
@@ -12,14 +12,14 @@ const Layout = ({children}) => {
     setSideBarOpen(false)
   }
   const open = () => {
-    setSideBarOpen(true)
+    setDropOpen(true)
   }
     return(
         
             
          <div>
             <div className="flex h-screen bg-gray-200">
-            <div className={sideBarOpen ? 'block' : 'hidden'} onClick={close} class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
+            <div className={sideBarOpen ? 'block' : 'hidden'} onClick={close} ></div>
         
             <div className={"fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0" +
                 (sideBarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in')} >
@@ -47,14 +47,14 @@ const Layout = ({children}) => {
                     </div>
         
                     <div className="flex items-center">
-                        <div x-data="{ notificationOpen: false }" className="relative">
-                            <button onClick="notificationOpen = ! notificationOpen"
+                        <div className="relative">
+                            <button onClick={close}
                                 className="flex mx-4 text-gray-600 focus:outline-none">
                          
                             </button>
         
                             <div onClick={() => setdropdownOpen(false)}
-                                classNameName={dropdownOpen ?'block':''+'fixed inset-0 h-full w-full z-10'} ></div>
+                                className={dropdownOpen ?'block':''+'fixed inset-0 h-full w-full z-10'} ></div>
         
                            
                         </div>
@@ -62,7 +62,7 @@ const Layout = ({children}) => {
                         <div className="relative">
                             
         
-                            <div x-show="dropdownOpen" onClick="dropdownOpen = false" className="fixed inset-0 h-full w-full z-10"
+                            <div  className="fixed inset-0 h-full w-full z-10" onClick={open}
                                 ></div>
         
                             <div x-show="dropdownOpen"
@@ -81,7 +81,7 @@ const Layout = ({children}) => {
                 <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                     <div className="container mx-auto px-6 py-8">
                     {children}
-                        ---
+                        
                     </div>
                 </main>
             </div>

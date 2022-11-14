@@ -4,8 +4,40 @@ import Layout from '../components/layout'
 import Table from '../components/Table'
 import Title from '../components/title'
 import { MdProductionQuantityLimits } from "react-icons/md";
+import useSWR from 'swr'
+
+
+
+//isomorphic-unfetch
+const fetcher = async query => {
+    console.log('fetcher', JSON.stringify(query), query)
+    const res = await fetch('http://localhost:3000/graphql',{
+        headers:{
+            'Content-type':'application/json'
+        },
+        method:'POST',
+        body: query
+    })
+    //return de answer in JSON
+    const json = await res.json()
+    return json.data
+}
+
+const query = {
+    query:`
+    query {
+        getAllCategories{
+          id
+          name
+          slug
+        }
+      }
+    `
+}
 
 const Index = () => {
+    const {data, error} = useSWR(JSON.stringify(query), fetcher)
+    console.log(data, error)
 
     return(
         <div >
@@ -13,9 +45,9 @@ const Index = () => {
         <Title>Iniciar Categorias</Title>
                         
              {/* Dinamic data card */}
-                        <div class="mt-4">
-                            <div class="flex flex-wrap -mx-6">
-                                <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+                        <div className="mt-4">
+                            <div className="flex flex-wrap -mx-6">
+                                
                                 <Card>
                                 <Card.Icon>
                                    <MdProductionQuantityLimits className="h-8 w-8 text-white" />
@@ -25,7 +57,7 @@ const Index = () => {
                                     <Card.Description>Produtos</Card.Description>
                                 </Card.Data>
                                 </Card>
-                                </div>
+                                
         
 
                        
@@ -50,14 +82,14 @@ const Index = () => {
                             </div>
                         </div>
         
-                        <div class="mt-8">
+                        <div className="mt-8">
         
                         </div>
         
-                        <div class="flex flex-col mt-8">
-                            <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                        <div className="flex flex-col mt-8">
+                            <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                                 <div
-                                    class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                                    className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
                                         <Table>
                                             <Table.Head>
                                                 <Table.Th>Name</Table.Th>
@@ -68,39 +100,39 @@ const Index = () => {
                                             </Table.Head>
                                              <Table.Body>
                                               <Table.Tr>
-                                              <Table.Td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <div class="flex items-center">
-                                                        <div class="flex-shrink-0 h-10 w-10">
-                                                            <img class="h-10 w-10 rounded-full"
+                                              <Table.Td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <div className="flex items-center">
+                                                        <div className="flex-shrink-0 h-10 w-10">
+                                                            <img className="h-10 w-10 rounded-full"
                                                                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
                                                                 alt=""/>
                                                         </div>
         
-                                                        <div class="ml-4">
-                                                            <div class="text-sm leading-5 font-medium text-gray-900">John Doe
+                                                        <div className="ml-4">
+                                                            <div className="text-sm leading-5 font-medium text-gray-900">John Doe
                                                             </div>
-                                                            <div class="text-sm leading-5 text-gray-500">john@example.com</div>
+                                                            <div className="text-sm leading-5 text-gray-500">john@example.com</div>
                                                         </div>
                                                     </div>
                                                 </Table.Td>
         
-                                                <Table.Td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                    <div class="text-sm leading-5 text-gray-900">Software Engineer</div>
-                                                    <div class="text-sm leading-5 text-gray-500">Web dev</div>
+                                                <Table.Td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                    <div className="text-sm leading-5 text-gray-900">Software Engineer</div>
+                                                    <div className="text-sm leading-5 text-gray-500">Web dev</div>
                                                 </Table.Td>
         
-                                                <Table.Td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                                                <Table.Td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
                                                     <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
+                                                        className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
                                                 </Table.Td>
         
                                                 <Table.Td
-                                                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                                                    className="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                                                     Owner</Table.Td>
         
                                                 <Table.Td
-                                                    class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-                                                    <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                                    className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+                                                    <a href="#" className="text-indigo-600 hover:text-indigo-900">Edit</a>
                                                 </Table.Td>
                                              </Table.Tr>
                                           
