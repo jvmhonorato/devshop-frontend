@@ -10,8 +10,7 @@ import { useQuery } from '../../lib/graphql'
 
 
 //interface
-const query = {
-    query:`
+const GET_ALL_CATEGORIES = `
     query {
         getAllCategories{
           id
@@ -20,10 +19,10 @@ const query = {
         }
       }
     `
-}
+
 
 const Index = () => {
-    const {data, error} = useQuery(query)
+    const {data, error} = useQuery(GET_ALL_CATEGORIES)
     console.log(data, error)
 
     return(

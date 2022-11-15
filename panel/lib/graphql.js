@@ -19,7 +19,10 @@ const fetcher = async query => {
 
 
 //the query interface will be passed dynamically
-const useQuery = query => {
+const useQuery = queryStr => {
+    const  query ={
+        query:queryStr
+    }
 return  useSWR(JSON.stringify(query), fetcher)
     
 }
@@ -46,7 +49,7 @@ const useMutation = query => {
     const mutate = async variables => {
         //will add the two values
         const mutation = {
-            ...query,
+            query,
             variables
         }
         //save in postgresSQL

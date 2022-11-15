@@ -10,8 +10,7 @@ import { useMutation, useQuery } from '../../lib/graphql'
 
 
 //interface
-const mutation = {
-    query:`
+const CREATE_CATEGORY = `
     mutation createCategory($name: String!, $slug: String!) {
         createCategory (input:{
             name: $name,
@@ -23,11 +22,11 @@ const mutation = {
         }
       }
     `
-}
+
 
 const Index = () => {
     const router = useRouter()
-    const [data, createCategory] = useMutation(mutation)
+    const [data, createCategory] = useMutation(CREATE_CATEGORY)
 
     // //WITHOUT USESTATE
     // const [mutate] = useMutation(mutation)
@@ -47,7 +46,7 @@ const Index = () => {
             name:'',
             slug:''
         },
-        //use async to wait category be created and later redirect page 
+        //use async to wait category be created and later redirect  
         onSubmit: async values => {
           await  createCategory(values)
             router.push('/categories')
