@@ -1,28 +1,21 @@
 import React, { useState } from "react";
-
+import Link from "next/link";
 import Menu from "../Menu";
 
 import { MdCategory,MdOutlineHome } from "react-icons/md";
 
 const Layout = ({children}) => {
-  const [sideBarOpen, setSideBarOpen] = useState(false)
-  const [dropdownOpen, setdropdownOpen] = useState(false)
 
-  const close = () => {
-    setSideBarOpen(false)
-  }
-  const open = () => {
-    setDropOpen(true)
-  }
+
     return(
         
             
          <div>
             <div className="flex h-screen bg-gray-200">
-            <div className={sideBarOpen ? 'block' : 'hidden'} onClick={close} ></div>
+            <div  ></div>
         
-            <div className={"fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0" +
-                (sideBarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in')} >
+            <div className="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0" 
+                 >
                <Menu.Brand>DevShop</Menu.Brand>
                     <Menu.Nav>
                    <Menu.NavItem href='/' Icon={MdOutlineHome} >Home</Menu.NavItem>
@@ -48,13 +41,11 @@ const Layout = ({children}) => {
         
                     <div className="flex items-center">
                         <div className="relative">
-                            <button onClick={close}
-                                className="flex mx-4 text-gray-600 focus:outline-none">
+                            <button>
                          
                             </button>
         
-                            <div onClick={() => setdropdownOpen(false)}
-                                className={dropdownOpen ?'block':''+'fixed inset-0 h-full w-full z-10'} ></div>
+                            <div></div>
         
                            
                         </div>
@@ -62,24 +53,25 @@ const Layout = ({children}) => {
                         <div className="relative">
                             
         
-                            <div  className="fixed inset-0 h-full w-full z-10" onClick={open}
+                            <div
                                 ></div>
         
-                            <div x-show="dropdownOpen"
+                            <div 
                                 className="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
                                >
-                                <a href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
-                                <a href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Products</a>
-                                <a href="/login"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</a>
+                                <Link href="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</Link>
+                                <Link href="#"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Products</Link>
+                                <Link href="/login"
+                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</Link>
                             </div>
                         </div>
                     </div>
                 </header>
                 <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
                     <div className="container mx-auto px-6 py-8">
+                        
                     {children}
                         
                     </div>

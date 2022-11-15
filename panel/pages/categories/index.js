@@ -1,10 +1,11 @@
 import React from 'react'
+import Link from 'next/link'
+import Layout from '../../components/layout'
+import Table from '../../components/Table'
+import Title from '../../components/title'
 
-import Layout from '../components/layout'
-import Table from '../components/Table'
-import Title from '../components/title'
 
-import { useQuery } from '../lib/graphql'
+import { useQuery } from '../../lib/graphql'
 
 
 
@@ -27,6 +28,7 @@ const Index = () => {
 
     return(
         <div >
+            
         <Layout>
         <Title>Iniciar Categorias</Title>
                         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
@@ -36,7 +38,7 @@ const Index = () => {
                         <div className="mt-8">
         
                         </div>
-                        <div><a href=''>Criar Categoria</a></div>
+                        <Link className="text-indigo-600 hover:text-indigo-900" href='/categories/create'>Criar Categorias</Link>
         
                         <div className="flex flex-col mt-8">
                             <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
