@@ -9,7 +9,7 @@ import { useQuery } from '../../lib/graphql'
 
 
 
-
+//interface
 const query = {
     query:`
     query {

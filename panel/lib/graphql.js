@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useSWR from 'swr'
 
 
@@ -20,7 +21,47 @@ const fetcher = async query => {
 //the query interface will be passed dynamically
 const useQuery = query => {
 return  useSWR(JSON.stringify(query), fetcher)
-
+    
 }
 
-export  {useQuery}
+  // //WITHOUT USESTATE()
+// //wait query
+// const useMutation = query => {
+//     //wait variables come from form.values
+//     const mutate = variables => {
+//         //will add the two values
+//         const mutation = {
+//             ...query,
+//             variables
+//         }
+//         //save in postgresSQL
+//         return fetcher(JSON.stringify(mutation))
+//     }
+
+
+
+    // WITH USESTATE()
+const useMutation = query => {
+    const [data, setData] = useState(null)
+    const mutate = async variables => {
+        //will add the two values
+        const mutation = {
+            ...query,
+            variables
+        }
+        //save in postgresSQL
+        try{
+         const   returnedData = await  fetcher(JSON.stringify(mutation))
+         setData(returnedData)
+        }catch{
+
+        }
+        
+    }
+
+    return [data, mutate]
+}
+
+
+
+export  {useQuery, useMutation}

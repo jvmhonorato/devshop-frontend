@@ -3,17 +3,20 @@ import Link from 'next/link'
 import Layout from '../../components/layout'
 import { useFormik } from 'formik'
 import Title from '../../components/title'
+import { useRouter } from 'next/router'
+
+import { useMutation, useQuery } from '../../lib/graphql'
 
 
-import { useQuery } from '../../lib/graphql'
 
-
-
-
-const query = {
+//interface
+const mutation = {
     query:`
-    query {
-        getAllCategories{
+    mutation createCategory($name: String!, $slug: String!) {
+        createCategory (input:{
+            name: $name,
+            slug: $slug
+        }) {
           id
           name
           slug
@@ -23,23 +26,42 @@ const query = {
 }
 
 const Index = () => {
-    const {data, error} = useQuery(query)
+    const router = useRouter()
+    const [data, createCategory] = useMutation(mutation)
+
+    // //WITHOUT USESTATE
+    // const [mutate] = useMutation(mutation)
+    // const form = useFormik({
+    //     initialValues:{
+    //         name:'',
+    //         slug:''
+    //     },
+    //     onSubmit: values => {
+    //         mutate(values)
+    //     }
+    // })
+         
+       //WITH USESTATE()
     const form = useFormik({
         initialValues:{
             name:'',
             slug:''
         },
-        onSubmit: values => {
-            console.log(values)
+        //use async to wait category be created and later redirect page 
+        onSubmit: async values => {
+          await  createCategory(values)
+            router.push('/categories')
         }
     })
+
+    
 
     return(
         <div >
             
         <Layout>
         <Title>Criar Categoria</Title>
-                        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+                        <pre>{JSON.stringify(data, null, 2)}</pre>
              
                        
         
