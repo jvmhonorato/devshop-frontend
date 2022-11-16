@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import Title from '../../components/title'
 import { useRouter } from 'next/router'
 
-import { useMutation, useQuery } from '../../lib/graphql'
+import { useMutation } from '../../lib/graphql'
 
 
 
