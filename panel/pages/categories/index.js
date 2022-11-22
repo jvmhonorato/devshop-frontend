@@ -92,11 +92,13 @@ const Index = () => {
                                                      
               
                                                       <Table.Td>
-                                                          <a href="#" className="text-indigo-600 hover:text-indigo-900">Editar</a>
+                                                        <Link href={`/categories/${item.id}/edit`} >
+                                                         <p className="text-indigo-600 hover:text-indigo-900">Editar</p> 
+                                                          </Link>
                                                       </Table.Td>
 
                                                       <Table.Td>
-                                                          <a onClick={remove(item.id)} href="#" className="text-indigo-600 hover:text-indigo-900">Deletar</a>
+                                                          <a onClick={remove(item.id)} href="#" className="text-red-600 hover:text-red-900">Deletar</a>
                                                       </Table.Td>
                                                    </Table.Tr>
 
