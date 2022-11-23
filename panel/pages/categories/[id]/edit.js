@@ -5,6 +5,7 @@ import { useFormik } from 'formik'
 import Layout from "../../../components/layout";
 import Title from "../../../components/title";
 import Link from "next/link";
+import Button from '../../../components/Button'
 
 
 
@@ -70,7 +71,7 @@ const Edit = () => {
                        
         
                       
-                        <Link className="text-indigo-600 hover:text-indigo-900" href='/categories'>voltar</Link>
+                        
         
                         <div className="flex flex-col mt-8">
                             <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
@@ -79,16 +80,36 @@ const Edit = () => {
          <div>
           
           {/* {JSON.stringify(data)} */}
-          <form onSubmit={form.handleSubmit}>
-                                        <input type='text' name='name'onChange={form.handleChange} value={form.values.name}/>
-                                       <input type='text' name='slug' onChange={form.handleChange} value={form.values.slug}/>
-                                       <button type='submit'>Atualizar Categoria</button>
-                                        </form>
+        
             
             </div>
            </div>
          </div>
          </div>
+
+         <form onSubmit={form.handleSubmit}>
+         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+    <div className="mb-4">
+      <label class="block text-grey-darker text-sm font-bold mb-2" for="">
+      Categoria
+      </label>
+      <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} value={form.values.name} />
+    </div>
+    <div class="mb-6">
+      <label className="block text-grey-darker text-sm font-bold mb-2" for="">
+       Slug da Categoria
+      </label>
+      <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} value={form.values.slug}/>
+      
+    </div>
+    <div className="flex items-center justify-between">
+    <Button className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none" type='submit'>Atualizar Categoria</Button>
+    
+    </div>
+</div> 
+</form>
+<Button.Back className="text-indigo-600 hover:text-indigo-900" href='/categories'>voltar</Button.Back>
+         
          </Layout>
          
 

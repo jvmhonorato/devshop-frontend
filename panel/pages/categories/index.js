@@ -6,6 +6,8 @@ import Title from '../../components/title'
 
 
 import { useMutation, useQuery } from '../../lib/graphql'
+import Button from '../../components/Button'
+import Alert from '../../components/Alert'
 
 
 
@@ -41,7 +43,7 @@ const Index = () => {
         <div >
             
         <Layout>
-        <Title>Iniciar Categorias</Title>
+        <Title>Gerenciar Categorias</Title>
                         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
              
                        
@@ -49,18 +51,15 @@ const Index = () => {
                         <div className="mt-8">
         
                         </div>
-                        <Link className="text-indigo-600 hover:text-indigo-900" href='/categories/create'>Criar Categorias</Link>
+                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none" href='/categories/create'>Criar Categorias</Button.Link>
         
                         <div className="flex flex-col mt-8">
                             <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
 
                             {data && data.getAllCategories && data.getAllCategories.length === 0 && (
-                            <div class="flex bg-yellow-100 rounded-lg p-4 mb-4 text-sm text-yellow-700" role="alert">
-                            <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-                            <div>
+                            <Alert>
                                 <span class="font-medium">Atenção!</span> Nenhuma categoria listada!
-                            </div>
-                        </div>)}
+                            </Alert>)}
                           
                             {data && data.getAllCategories && data.getAllCategories.length > 0 && (
                                 <div
@@ -92,13 +91,13 @@ const Index = () => {
                                                      
               
                                                       <Table.Td>
-                                                        <Link href={`/categories/${item.id}/edit`} >
-                                                         <p className="text-indigo-600 hover:text-indigo-900">Editar</p> 
-                                                          </Link>
+                                                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-indigo-500 rounded shadow ripple hover:shadow-lg hover:bg-indigo-600 focus:outline-none" href={`/categories/${item.id}/edit`} >
+                                                         <p >Editar</p> 
+                                                          </Button.Link>
                                                       </Table.Td>
 
                                                       <Table.Td>
-                                                          <a onClick={remove(item.id)} href="#" className="text-red-600 hover:text-red-900">Deletar</a>
+                                                          <Button.Remove onClick={remove(item.id)} >Deletar</Button.Remove>
                                                       </Table.Td>
                                                    </Table.Tr>
 
