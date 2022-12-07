@@ -20,8 +20,8 @@ const Layout = ({children}) => {
                     <Menu.Nav>
                    <Menu.NavItem href='/' Icon={MdOutlineHome} >Home</Menu.NavItem>
                    <Menu.NavItem href='/categories'Icon={MdCategory}>Categorias</Menu.NavItem>
-                   <Menu.NavItem href='/'>test</Menu.NavItem>
-                   <Menu.NavItem href='/'>test</Menu.NavItem>
+                   <Menu.NavItem href='/products'Icon={MdCategory}>Produtos</Menu.NavItem>
+               
         
                     </Menu.Nav>
                
