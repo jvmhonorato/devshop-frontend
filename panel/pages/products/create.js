@@ -116,7 +116,7 @@ const Index = () => {
                             <label className="block text-grey-darker text-sm font-bold mb-2" for="password">
                                 Descrição do Produto
                             </label>
-                            <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='description' onChange={form.handleChange} values={form.values.slug}/>
+                            <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='description' onChange={form.handleChange} values={form.values.description}/>
                            </div>
 
                              <div className="mb-6">   

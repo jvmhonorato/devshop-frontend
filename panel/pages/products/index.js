@@ -34,7 +34,7 @@ const GET_ALL_PRODUCTS = `
 
 const Index = () => {
     const {data, mutate} = useQuery(GET_ALL_PRODUCTS)
-    const [deleteData, deleteCategory] = useMutation(DELETE_PRODUCT)
+    const [deleteData, deleteProduct] = useMutation(DELETE_PRODUCT)
     const remove = id => async() => {
         await deleteProduct({ id })
         mutate()
