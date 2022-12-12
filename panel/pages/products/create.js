@@ -62,8 +62,10 @@ const Index = () => {
         },
         //use async to wait category be created and later redirect  
         onSubmit: async values => {
-          await  createProduct(values)
+         const data =  await  createProduct(values)
+         if(data && !data.errors){
             router.push('/products')
+         }
         }
     })
 
@@ -93,7 +95,7 @@ const Index = () => {
                                 </div>
                             </div>
                         </div>
-                        
+                        {data && !!data.errors && <p className="bg-red-100 border border-red-400´mb-6 text-red-700 px-4 py-3 rounded relative" role="alert"> Ocorreu um erro ao salvar os dados</p>}
                         <form onSubmit={form.handleSubmit}>
                         {JSON.stringify(category, null,2)}
                         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
