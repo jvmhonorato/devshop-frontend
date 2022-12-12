@@ -50,8 +50,10 @@ const Edit = () => {
                 ...values,
                 id: router.query.id
             }
-          await  updateCategory(category)
+         const data = await  updateCategory(category)
+         if(data && !data.errors){
             router.push('/categories')
+         }
         }
     })
     //passed data to the form
@@ -86,6 +88,7 @@ const Edit = () => {
            </div>
          </div>
          </div>
+         {updatedData && !!updatedData.errors && <p className="bg-red-100 border border-red-400´mb-6 text-red-700 px-4 py-3 rounded relative" role="alert"> Ocorreu um erro ao salvar os dados</p>}
 
          <form onSubmit={form.handleSubmit}>
          <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">

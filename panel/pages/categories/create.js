@@ -49,8 +49,12 @@ const Index = () => {
         },
         //use async to wait category be created and later redirect  
         onSubmit: async values => {
-          await  createCategory(values)
+         const data = await  createCategory(values)
+         console.log(data)
+         if(data && !data.errors){
             router.push('/categories')
+         }
+            
         }
     })
 
@@ -61,12 +65,12 @@ const Index = () => {
             
         <Layout>
         <Title>Criar Categoria</Title>
-                        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+                        
              
                        
         
                         <div className="mt-8">
-        
+                        <pre>{JSON.stringify(!!data, null, 2)}</pre>
                         </div>
                   
         
@@ -80,7 +84,7 @@ const Index = () => {
                                 </div>
                             </div>
                         </div>
-                        
+                        {data && !!data.errors && <p className="bg-red-100 border border-red-400´mb-6 text-red-700 px-4 py-3 rounded relative" role="alert"> Ocorreu um erro ao salvar os dados</p>}
                         <form onSubmit={form.handleSubmit}>
                         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                             <div className="mb-4">
