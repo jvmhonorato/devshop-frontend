@@ -6,7 +6,7 @@ import Title from '../../components/title'
 import { useRouter } from 'next/router'
 import Button from '../../components/Button'
 import * as yup from 'yup'
-import { useMutation } from '../../lib/graphql'
+import { useMutation, fetcher } from '../../lib/graphql'
 
 
 
@@ -30,8 +30,21 @@ const CategorySchema = yup.object().shape({
     slug: yup.string()
     .min(3, 'Por favor, informe pelo menos um SLUG com 4 caracteres.')
     .required('Por favor informe pelo menos um SLUG pra categoria')
+    .test('is-unique',  'Por favor, utilize outro slug. Este já está em uso', async(value)=> {
+        const ret = await fetcher(JSON.stringify({
+            query: `
+            query{
+                getCategoryBySlug(slug:"$(value)"){
+                    id
+                }
+            }`
+    }))
+    if(ret.errors){
+        return true
+    }
+    return false
 })
-
+})
 const Index = () => {
     const router = useRouter()
     const [data, createCategory] = useMutation(CREATE_CATEGORY)

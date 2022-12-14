@@ -71,4 +71,4 @@ const useMutation = query => {
 
 
 
-export  {useQuery, useMutation}
+export  {useQuery, useMutation, fetcher}
