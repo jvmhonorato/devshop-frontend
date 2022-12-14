@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import Title from '../../components/title'
 import { useRouter } from 'next/router'
 import Button from '../../components/Button'
-
+import * as yup from 'yup'
 import { useMutation } from '../../lib/graphql'
 
 
@@ -23,7 +23,14 @@ const CREATE_CATEGORY = `
         }
       }
     `
-
+const CategorySchema = yup.object().shape({
+    name: yup.string()
+    .min(3, 'Por favor, informe pelo menos um NOME com 4 caracteres.')
+    .required('Por favor informe pelo menos um NOME pra categoria'),
+    slug: yup.string()
+    .min(3, 'Por favor, informe pelo menos um SLUG com 4 caracteres.')
+    .required('Por favor informe pelo menos um SLUG pra categoria')
+})
 
 const Index = () => {
     const router = useRouter()
@@ -46,7 +53,7 @@ const Index = () => {
         initialValues:{
             name:'',
             slug:''
-        },
+        },validationSchema: CategorySchema,
         //use async to wait category be created and later redirect  
         onSubmit: async values => {
          const data = await  createCategory(values)
@@ -70,7 +77,7 @@ const Index = () => {
                        
         
                         <div className="mt-8">
-                        <pre>{JSON.stringify(!!data, null, 2)}</pre>
+                        <pre>{JSON.stringify(form.errors, null, 2)}</pre>
                         </div>
                   
         
@@ -84,7 +91,7 @@ const Index = () => {
                                 </div>
                             </div>
                         </div>
-                        {data && !!data.errors && <p className="bg-red-100 border border-red-400´mb-6 text-red-700 px-4 py-3 rounded relative" role="alert"> Ocorreu um erro ao salvar os dados</p>}
+                        {data && !!data.errors && <p className="bg-red-100 border border-red-400 mb-6 text-red-700 px-4 py-3 rounded relative" role="alert"> Ocorreu um erro ao salvar os dados</p>}
                         <form onSubmit={form.handleSubmit}>
                         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                             <div className="mb-4">
@@ -92,12 +99,14 @@ const Index = () => {
                                 Categoria
                             </label>
                             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} values={form.values.name}/>
+                            {form.errors.name && <p className="text-red-500 text-xs italic">{form.errors.name}</p>}
                             </div>
                             <div className="mb-6">
                             <label className="block text-grey-darker text-sm font-bold mb-2" for="password">
                                 Slug da Categoria
                             </label>
                             <input pça className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} values={form.values.slug}/>
+                            {form.errors.slug && <p className="text-red-500 text-xs italic">{form.errors.slug}</p>}
                            
                             </div>
                             <div className="flex items-center justify-between">
