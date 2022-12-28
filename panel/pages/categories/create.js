@@ -34,7 +34,7 @@ const CategorySchema = yup.object().shape({
         const ret = await fetcher(JSON.stringify({
             query: `
             query{
-                getCategoryBySlug(slug:"$(value)"){
+                getCategoryBySlug(slug:"$${value}"){
                     id
                 }
             }`
