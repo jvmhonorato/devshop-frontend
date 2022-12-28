@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import {useRouter} from 'next/router'
-import { useMutation, useQuery } from "../../../lib/graphql";
+import { fetcher, useMutation, useQuery } from "../../../lib/graphql";
 import { useFormik } from 'formik'
 import Layout from "../../../components/layout";
 import Title from "../../../components/title";
 import Link from "next/link";
 import Button from '../../../components/Button'
+import * as yup from 'yup'
 
 
-
+let id = ''
 const UPDATE_CATEGORY = `
     mutation updateCategory($id: String!, $name: String!, $slug: String!) {
         updateCategory (input:{
@@ -23,11 +24,37 @@ const UPDATE_CATEGORY = `
       }
     `
 
+    const CategorySchema = yup.object().shape({
+        name: yup.string()
+        .min(3, 'Por favor, informe pelo menos um NOME com 4 caracteres.')
+        .required('Por favor informe pelo menos um NOME pra categoria'),
+        slug: yup.string()
+        .min(3, 'Por favor, informe pelo menos um SLUG com 4 caracteres.')
+        .required('Por favor informe pelo menos um SLUG pra categoria')
+        .test('is-unique',  'Por favor, utilize outro slug. Este já está em uso', async(value)=> {
+            const ret = await fetcher(JSON.stringify({
+                query: `
+                query{
+                    getCategoryBySlug(slug:"${value}"){
+                        id
+                    }
+                }`
+        }))
+        if(ret.errors){
+            
+            return true
+            
+        }
+        console.log(ret.data.getCategoryBySlug.id, id)
+        return false
+    })
+    })
 
 const Edit = () => {
     
     //defined data that comes from the server
     const router = useRouter()
+    id = router.query.id
     const {data} = useQuery(`
     query{
         getCategoryById(id:"${router.query.id}"){
@@ -54,7 +81,7 @@ const Edit = () => {
          if(data && !data.errors){
             router.push('/categories')
          }
-        }
+        },validationSchema: CategorySchema
     })
     //passed data to the form
     useEffect(() => {
@@ -80,7 +107,7 @@ const Edit = () => {
                                 <div
                                     className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
          <div>
-          
+         <pre>{JSON.stringify(form, null, 2)}</pre>
           {/* {JSON.stringify(data)} */}
         
             
@@ -97,12 +124,14 @@ const Edit = () => {
       Categoria
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} value={form.values.name} />
+      {form.errors.name && <p className="text-red-500 text-xs italic">{form.errors.name}</p>}
     </div>
     <div class="mb-6">
       <label className="block text-grey-darker text-sm font-bold mb-2" for="">
        Slug da Categoria
       </label>
       <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} value={form.values.slug}/>
+      {form.errors.slug && <p className="text-red-500 text-xs italic">{form.errors.slug}</p>}
       
     </div>
     <div className="flex items-center justify-between">

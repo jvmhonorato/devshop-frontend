@@ -125,7 +125,7 @@ const initial= {id:'', label:'Selecione...'}
                         </div>
                         {data && !!data.errors && <p className="bg-red-100 border border-red-400´mb-6 text-red-700 px-4 py-3 rounded relative" role="alert"> Ocorreu um erro ao salvar os dados</p>}
                         <form onSubmit={form.handleSubmit}>
-                        {JSON.stringify(data.errors, null,2)}
+                        
                         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
 
                             <div className="mb-4">

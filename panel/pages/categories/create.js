@@ -34,7 +34,7 @@ const CategorySchema = yup.object().shape({
         const ret = await fetcher(JSON.stringify({
             query: `
             query{
-                getCategoryBySlug(slug:"$${value}"){
+                getCategoryBySlug(slug:"${value}"){
                     id
                 }
             }`
@@ -42,6 +42,7 @@ const CategorySchema = yup.object().shape({
     if(ret.errors){
         return true
     }
+    console.log(ret.data.getCategoryBySlug.id)
     return false
 })
 })
@@ -66,7 +67,7 @@ const Index = () => {
         initialValues:{
             name:'',
             slug:''
-        },validationSchema: CategorySchema,
+        },
         //use async to wait category be created and later redirect  
         onSubmit: async values => {
          const data = await  createCategory(values)
@@ -75,7 +76,7 @@ const Index = () => {
             router.push('/categories')
          }
             
-        }
+        },validationSchema: CategorySchema,
     })
 
     
@@ -90,7 +91,7 @@ const Index = () => {
                        
         
                         <div className="mt-8">
-                        <pre>{JSON.stringify(form.errors, null, 2)}</pre>
+                        
                         </div>
                   
         
@@ -111,15 +112,16 @@ const Index = () => {
                             <label className="block text-grey-darker text-sm font-bold mb-2" for="username">
                                 Categoria
                             </label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} values={form.values.name}/>
+                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} values={form.values.name} errorMessage={form.errors.name}/>
                             {form.errors.name && <p className="text-red-500 text-xs italic">{form.errors.name}</p>}
                             </div>
                             <div className="mb-6">
                             <label className="block text-grey-darker text-sm font-bold mb-2" for="password">
                                 Slug da Categoria
                             </label>
-                            <input pça className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} values={form.values.slug}/>
+                            <input  className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} values={form.values.slug}  errorMessage={form.errors.slug}/>
                             {form.errors.slug && <p className="text-red-500 text-xs italic">{form.errors.slug}</p>}
+                            
                            
                             </div>
                             <div className="flex items-center justify-between">

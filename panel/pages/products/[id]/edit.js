@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import {useRouter} from 'next/router'
-import { useMutation, useQuery } from "../../../lib/graphql";
+import { useMutation, useQuery, fetcher } from "../../../lib/graphql";
 import { useFormik } from 'formik'
 import Layout from "../../../components/layout";
 import Title from "../../../components/title";
-
+import * as yup from 'yup'
 import Button from '../../../components/Button'
 
-
+let id = ''
     const GET_ALL_CATEGORIES = `
     query {
         getAllCategories{
@@ -35,10 +35,43 @@ import Button from '../../../components/Button'
       }
     `
 
+
+    const ProductSchema = yup.object().shape({
+        name: yup.string()
+        .min(3, 'Por favor, informe pelo menos um NOME de  Produto com 4 caracteres.')
+        .required('Por favor informe pelo menos um NOME pra o Produto'),
+        slug: yup.string()
+        .min(3, 'Por favor, informe pelo menos um SLUG com 4 caracteres.')
+        .required('Por favor informe pelo menos um SLUG pra o Produto')
+        .test('is-unique',  'Por favor, utilize outro slug. Este já está em uso', async(value)=> {
+            const ret = await fetcher(JSON.stringify({
+                query: `
+                query{
+                    getProductBySlug(slug:"${value}"){
+                        id
+                    }
+                }`
+        }))
+        if(ret.errors){
+            return true
+        }
+        //condition to save the same slug on edit mode
+        if(ret.data.getProductBySlug.id === id){
+           return true
+        }
+        
+    }),
+    description: yup.string()
+    .min(20, 'Por favor, informe pelo menos uma Descrição com 20 caracteres.')
+    .required('Por favor informe uma descrição'),
+    })
+
+    const initial= {id:'', label:'Selecione...'}
 const Edit = () => {
     
     //defined data that comes from the server
     const router = useRouter()
+    id = router.query.id
     const {data} = useQuery(`
     query{
         getProductById(id:"${router.query.id}"){
@@ -70,7 +103,8 @@ const Edit = () => {
          if(data && !data.errors){
           router.push('/products')
        }
-        }
+        },
+        validationSchema: ProductSchema
     })
     //passed data to the form
     useEffect(() => {
@@ -114,6 +148,7 @@ const Edit = () => {
       Produto
       </label>
       <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} value={form.values.name} />
+      {form.errors.name && <p className="text-red-500 text-xs italic">{form.errors.name}</p>}
     </div>
 
     <div class="mb-6">
@@ -121,12 +156,14 @@ const Edit = () => {
        Slug do produto
       </label>
       <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} value={form.values.slug}/>
+      {form.errors.slug && <p className="text-red-500 text-xs italic">{form.errors.slug}</p>}
       </div>
       <div class="mb-6">
       <label className="block text-grey-darker text-sm font-bold mb-2" for="">
        Descrição do produto
       </label>
       <input className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='description' onChange={form.handleChange} value={form.values.description}/>
+      {form.errors.description && <p className="text-red-500 text-xs italic">{form.errors.description}</p>}
       </div>
 
       <div className="mb-6">   
@@ -134,8 +171,10 @@ const Edit = () => {
                                 Selecione a categoria
                             </label>
                            <select name='category' onChange={form.handleChange} className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" >
+                           {initial && <option value={initial.id}>{initial.label}</option>}
                                 {category && category.getAllCategories && category.getAllCategories.map(item => { return (<option value={item.id} key={item.id}>{item.name}</option>)})}
                             </select>
+                            {!form.values.category && <p className="text-red-500 text-xs italic">Por favor, informe uma categoria!</p>}
                             </div>
 
     <div className="flex items-center justify-between">
