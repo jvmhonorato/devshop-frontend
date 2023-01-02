@@ -12,17 +12,17 @@ import Alert from '../../components/Alert'
 
 
 //interface
-const DELETE_CATEGORY = `
-mutation deleteCategory($id: String!) {
-    deleteCategory (id: $id)
+const DELETE_BRAND = `
+mutation deleteBrand($id: String!) {
+    deleteBrand (id: $id)
      
       
   }
 `
 
-const GET_ALL_CATEGORIES = `
+const GET_ALL_BRANDS = `
     query {
-        getAllCategories{
+        getAllBrands{
           id
           name
           slug
@@ -32,10 +32,10 @@ const GET_ALL_CATEGORIES = `
 
 
 const Index = () => {
-    const {data, mutate} = useQuery(GET_ALL_CATEGORIES)
-    const [deleteData, deleteCategory] = useMutation(DELETE_CATEGORY)
+    const {data, mutate} = useQuery(GET_ALL_BRANDS)
+    const [deleteData, deleteBrand] = useMutation(DELETE_BRAND)
     const remove = id => async() => {
-        await deleteCategory({ id })
+        await deleteBrand({ id })
         mutate()
     }
 
@@ -43,7 +43,7 @@ const Index = () => {
         <div >
             
         <Layout>
-        <Title>Gerenciar Categorias</Title>
+        <Title>Gerenciar Marcas</Title>
                         {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
              
                        
@@ -51,29 +51,29 @@ const Index = () => {
                         <div className="mt-8">
                         
                         </div>
-                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none" href='/categories/create'>Criar Categorias</Button.Link>
+                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none" href='/categories/create'>Criar Marca</Button.Link>
         
                         <div className="flex flex-col mt-8">
                             <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
 
                             {data && data.getAllCategories && data.getAllCategories.length === 0 && (
                             <Alert>
-                                <span class="font-medium">Atenção!</span> Nenhuma categoria listada!
+                                <span class="font-medium">Atenção!</span> Nenhuma marca listada!
                             </Alert>)}
                           
-                            {data && data.getAllCategories && data.getAllCategories.length > 0 && (
+                            {data && data.getAllBrands && data.getAllBrands.length > 0 && (
                                 <div
                                     className="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
                                          
                                         <Table>
                                             <Table.Head>
-                                                <Table.Th>Categorias</Table.Th>
+                                                <Table.Th>Brands</Table.Th>
                                                 <Table.Th></Table.Th>
                                                 <Table.Th></Table.Th>
                                            
                                             </Table.Head>
                                              <Table.Body>
-                                                {data && data.getAllCategories && data.getAllCategories.map(item => {
+                                                {data && data.getAllBrands && data.getAllBrands.map(item => {
                                                     return (
                                                     <Table.Tr key={item.id}>
                                                     <Table.Td >
@@ -91,7 +91,7 @@ const Index = () => {
                                                      
               
                                                       <Table.Td>
-                                                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-indigo-500 rounded shadow ripple hover:shadow-lg hover:bg-indigo-600 focus:outline-none" href={`/categories/${item.id}/edit`} >
+                                                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-indigo-500 rounded shadow ripple hover:shadow-lg hover:bg-indigo-600 focus:outline-none" href={`/brands/${item.id}/edit`} >
                                                          <p >Editar</p> 
                                                           </Button.Link>
                                                       </Table.Td>
