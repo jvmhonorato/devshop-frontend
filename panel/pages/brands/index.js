@@ -51,7 +51,7 @@ const Index = () => {
                         <div className="mt-8">
                         
                         </div>
-                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none" href='/categories/create'>Criar Marca</Button.Link>
+                        <Button.Link className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-blue-700 rounded shadow ripple hover:shadow-lg hover:bg-blue-800 focus:outline-none" href='/brands/create'>Criar Marca</Button.Link>
         
                         <div className="flex flex-col mt-8">
                             <div className="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">

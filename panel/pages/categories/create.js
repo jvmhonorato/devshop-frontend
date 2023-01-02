@@ -67,7 +67,7 @@ const Index = () => {
         initialValues:{
             name:'',
             slug:''
-        },
+        },validationSchema: CategorySchema,
         //use async to wait category be created and later redirect  
         onSubmit: async values => {
          const data = await  createCategory(values)
@@ -76,7 +76,7 @@ const Index = () => {
             router.push('/categories')
          }
             
-        },validationSchema: CategorySchema,
+        },
     })
 
     

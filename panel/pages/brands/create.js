@@ -11,9 +11,9 @@ import { useMutation, fetcher } from '../../lib/graphql'
 
 
 //interface
-const CREATE_CATEGORY = `
-    mutation createCategory($name: String!, $slug: String!) {
-        createCategory (input:{
+const CREATE_BRAND = `
+    mutation createBrand($name: String!, $slug: String!) {
+        createBrand (input:{
             name: $name,
             slug: $slug
         }) {
@@ -23,18 +23,18 @@ const CREATE_CATEGORY = `
         }
       }
     `
-const CategorySchema = yup.object().shape({
+const BrandSchema = yup.object().shape({
     name: yup.string()
     .min(3, 'Por favor, informe pelo menos um NOME com 4 caracteres.')
-    .required('Por favor informe pelo menos um NOME pra categoria'),
+    .required('Por favor informe pelo menos um NOME pra marca'),
     slug: yup.string()
     .min(3, 'Por favor, informe pelo menos um SLUG com 4 caracteres.')
-    .required('Por favor informe pelo menos um SLUG pra categoria')
+    .required('Por favor informe pelo menos um SLUG pra marca')
     .test('is-unique',  'Por favor, utilize outro slug. Este já está em uso', async(value)=> {
         const ret = await fetcher(JSON.stringify({
             query: `
             query{
-                getCategoryBySlug(slug:"${value}"){
+                getBrandBySlug(slug:"${value}"){
                     id
                 }
             }`
@@ -42,13 +42,13 @@ const CategorySchema = yup.object().shape({
     if(ret.errors){
         return true
     }
-    console.log(ret.data.getCategoryBySlug.id)
+    console.log(ret.data.getBrandBySlug.id)
     return false
 })
 })
 const Index = () => {
     const router = useRouter()
-    const [data, createCategory] = useMutation(CREATE_CATEGORY)
+    const [data, createBrand] = useMutation(CREATE_BRAND)
 
     // //WITHOUT USESTATE
     // const [mutate] = useMutation(mutation)
@@ -68,15 +68,16 @@ const Index = () => {
             name:'',
             slug:''
         },
+        validationSchema: BrandSchema,
         //use async to wait category be created and later redirect  
         onSubmit: async values => {
-         const data = await  createCategory(values)
+         const data = await  createBrand(values)
          console.log(data)
          if(data && !data.errors){
-            router.push('/categories')
+            router.push('/brands')
          }
             
-        },validationSchema: CategorySchema,
+        }
     })
 
     
@@ -85,7 +86,7 @@ const Index = () => {
         <div >
             
         <Layout>
-        <Title>Criar Categoria</Title>
+        <Title>Criar Marca</Title>
                         
              
                        
@@ -110,14 +111,14 @@ const Index = () => {
                         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
                             <div className="mb-4">
                             <label className="block text-grey-darker text-sm font-bold mb-2" for="username">
-                                Categoria
+                                Marca
                             </label>
                             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" type='text' name='name'onChange={form.handleChange} values={form.values.name} errorMessage={form.errors.name}/>
                             {form.errors.name && <p className="text-red-500 text-xs italic">{form.errors.name}</p>}
                             </div>
                             <div className="mb-6">
                             <label className="block text-grey-darker text-sm font-bold mb-2" for="password">
-                                Slug da Categoria
+                                Slug da Marca
                             </label>
                             <input  className="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3" type='text' name='slug' onChange={form.handleChange} values={form.values.slug}  errorMessage={form.errors.slug}/>
                             {form.errors.slug && <p className="text-red-500 text-xs italic">{form.errors.slug}</p>}
@@ -125,7 +126,7 @@ const Index = () => {
                            
                             </div>
                             <div className="flex items-center justify-between">
-                            <Button className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none" type='submit'>Criar Categoria</Button>
+                            <Button className="inline-block px-6 py-2 text-xs font-medium leading-6 text-center text-white uppercase transition bg-green-500 rounded shadow ripple hover:shadow-lg hover:bg-green-600 focus:outline-none" type='submit'>Criar Marca</Button>
                            
                             </div>
                           </div>
